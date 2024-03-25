@@ -1926,8 +1926,8 @@ public class CameraDeviceImpl extends CameraDevice
                 }
 
                 // TODO: Handle CameraCharacteristics access from CaptureResult correctly.
-                result.set(CameraCharacteristics.LENS_INFO_SHADING_MAP_SIZE,
-                        getCharacteristics().get(CameraCharacteristics.LENS_INFO_SHADING_MAP_SIZE));
+                //result.set(CameraCharacteristics.LENS_INFO_SHADING_MAP_SIZE,
+                //        getCharacteristics().get(CameraCharacteristics.LENS_INFO_SHADING_MAP_SIZE));
 
                 final CaptureCallbackHolder holder =
                         CameraDeviceImpl.this.mCaptureCallbackMap.get(requestId);
