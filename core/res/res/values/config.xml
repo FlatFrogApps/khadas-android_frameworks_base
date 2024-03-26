@@ -117,7 +117,7 @@
     <!-- Flag indicating that the media framework should support playing of sounds on volume
          key usage.  This adds noticeable additional overhead to volume key processing, so
          is disableable for products for which it is irrelevant. -->
-    <bool name="config_useVolumeKeySounds">true</bool>
+    <bool name="config_useVolumeKeySounds">false</bool>
 
     <!-- The attenuation in dB applied to the sound effects played
          through AudioManager.playSoundEffect() when no volume is specified. -->
@@ -134,7 +134,7 @@
     <bool name="config_hearing_aid_profile_supported">false</bool>
 
     <!-- Flag to disable all transition animations -->
-    <bool name="config_disableTransitionAnimation">false</bool>
+    <bool name="config_disableTransitionAnimation">true</bool>
 
     <!-- The duration (in milliseconds) of a short animation. -->
     <integer name="config_shortAnimTime">200</integer>
@@ -544,7 +544,7 @@
     <bool name="config_animateScreenLights">false</bool>
 
     <!-- If this is true, key chords can be used to take a screenshot on the device. -->
-    <bool name="config_enableScreenshotChord">true</bool>
+    <bool name="config_enableScreenshotChord">false</bool>
 
     <!-- If this is true, allow wake from theater mode when plugged in or unplugged. -->
     <bool name="config_allowTheaterModeWakeFromUnplug">false</bool>
@@ -581,7 +581,7 @@
          settings are omitted from the system UI.  In certain situations we may
          still use the accelerometer to determine the orientation, such as when
          docked if the dock is configured to enable the accelerometer. -->
-    <bool name="config_supportAutoRotation">true</bool>
+    <bool name="config_supportAutoRotation">false</bool>
 
     <!-- If true, the screen can be rotated via the accelerometer in all 4
          rotations as the default behavior. -->
@@ -1751,7 +1751,7 @@
          PackageManager.FEATURE_TELEPHONY system feature, which is
          available on *any* device with a telephony radio, even if the
          device is data-only. -->
-    <bool name="config_voice_capable">true</bool>
+    <bool name="config_voice_capable">false</bool>
 
     <!-- Flag indicating whether all audio streams should be mapped to
          one single stream. If true, all audio streams are mapped to
@@ -1773,7 +1773,7 @@
 
          Note: Disable SMS also disable voicemail waiting sms,
                cell broadcasting sms, and MMS. -->
-    <bool name="config_sms_capable">true</bool>
+    <bool name="config_sms_capable">false</bool>
 
     <!-- Default SMS Application. This will be the default SMS application when
          the phone first boots. The user can then change the default app to one
@@ -1791,7 +1791,7 @@
          If true, this means that the device supports data connectivity through
          the telephony network.
          This can be overridden to false for devices that support voice and/or sms . -->
-    <bool name="config_mobile_data_capable">true</bool>
+    <bool name="config_mobile_data_capable">false</bool>
 
     <!-- Default web browser.  This is the package name of the application that will
          be the default browser when the device first boots.  Afterwards the user
@@ -2072,7 +2072,7 @@
          Consider setting this resource to false or disabling dreams by default when a
          doze component is specified below since dreaming will supercede dozing and
          will prevent the system from entering a low power state until the dream ends. -->
-    <bool name="config_dreamsSupported">true</bool>
+    <bool name="config_dreamsSupported">false</bool>
 
     <!-- If supported, are dreams enabled? (by default) -->
     <bool name="config_dreamsEnabledByDefault">true</bool>
