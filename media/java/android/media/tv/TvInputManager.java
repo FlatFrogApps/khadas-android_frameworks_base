@@ -2030,7 +2030,7 @@ public final class TvInputManager {
          *
          * @see TvView#setMain
          */
-        void setMain() {
+        public void setMain() {
             if (mToken == null) {
                 Log.w(TAG, "The session has been already released");
                 return;
