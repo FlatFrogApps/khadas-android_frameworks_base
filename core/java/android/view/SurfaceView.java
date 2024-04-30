@@ -761,7 +761,7 @@ public class SurfaceView extends View implements ViewRootImpl.SurfaceChangedCall
     public boolean setZOrderedOnTop(boolean onTop, boolean allowDynamicChange) {
         final int subLayer;
         if (onTop) {
-            subLayer = APPLICATION_PANEL_SUBLAYER;
+            subLayer = APPLICATION_MEDIA_OVERLAY_SUBLAYER;
         } else {
             subLayer = APPLICATION_MEDIA_SUBLAYER;
         }
