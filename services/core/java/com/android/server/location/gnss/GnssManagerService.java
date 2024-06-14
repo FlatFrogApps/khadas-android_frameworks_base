@@ -68,7 +68,7 @@ public class GnssManagerService {
     private static final String TAG = "GnssManagerService";
 
     public static boolean isGnssSupported() {
-        return GnssLocationProvider.isSupported();
+        return false;//GnssLocationProvider.isSupported();
     }
 
     private final Context mContext;
