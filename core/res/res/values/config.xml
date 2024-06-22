@@ -535,7 +535,7 @@
     <bool name="config_unplugTurnsOnScreen">false</bool>
 
     <!-- If this is true, the message that USB is only being used for charging will be shown. -->
-    <bool name="config_usbChargingMessage">true</bool>
+    <bool name="config_usbChargingMessage">false</bool>
 
     <!-- Set this true only if the device has separate attention and notification lights. -->
     <bool name="config_useAttentionLight">false</bool>
