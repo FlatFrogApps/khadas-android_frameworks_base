@@ -49,7 +49,7 @@ public class BestClock extends SimpleClock {
                 return clock.millis();
             } catch (DateTimeException e) {
                 // Ignore and attempt the next clock
-                Log.w(TAG, e.toString());
+                Log.v(TAG, e.toString());
             }
         }
         throw new DateTimeException(
