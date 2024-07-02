@@ -1280,7 +1280,7 @@ public final class MediaCodecInfo {
                 bitRates = Range.create(16000, 2688000);
                 maxChannels = 24;
             } else {
-                Log.w(TAG, "Unsupported mime " + mime);
+                Log.v(TAG, "Unsupported mime " + mime);
                 mParent.mError |= ERROR_UNSUPPORTED;
             }
 
@@ -2654,7 +2654,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.AVCLevel62:
                             MBPS = 16711680; FS = 139264; BR = 800000; DPB = 696320; break;
                         default:
-                            Log.w(TAG, "Unrecognized level "
+                            Log.v(TAG, "Unrecognized level "
                                     + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -2667,7 +2667,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.AVCProfileExtended:
                         case CodecProfileLevel.AVCProfileHigh422:
                         case CodecProfileLevel.AVCProfileHigh444:
-                            Log.w(TAG, "Unsupported profile "
+                            Log.v(TAG, "Unsupported profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNSUPPORTED;
                             supported = false;
@@ -2677,7 +2677,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.AVCProfileMain:
                             BR *= 1000; break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                             BR *= 1000;
@@ -2711,7 +2711,7 @@ public final class MediaCodecInfo {
                                 case CodecProfileLevel.MPEG2LevelML:
                                     FR = 30; W = 45; H =  36; MBPS =  40500; FS =  1620; BR =  15000; break;
                                 default:
-                                    Log.w(TAG, "Unrecognized profile/level "
+                                    Log.v(TAG, "Unrecognized profile/level "
                                             + profileLevel.profile + "/"
                                             + profileLevel.level + " for " + mime);
                                     errors |= ERROR_UNRECOGNIZED;
@@ -2730,7 +2730,7 @@ public final class MediaCodecInfo {
                                 case CodecProfileLevel.MPEG2LevelHP:
                                     FR = 60; W = 120; H = 68; MBPS = 489600; FS =  8160; BR = 80000; break;
                                 default:
-                                    Log.w(TAG, "Unrecognized profile/level "
+                                    Log.v(TAG, "Unrecognized profile/level "
                                             + profileLevel.profile + "/"
                                             + profileLevel.level + " for " + mime);
                                     errors |= ERROR_UNRECOGNIZED;
@@ -2740,13 +2740,13 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.MPEG2ProfileSNR:
                         case CodecProfileLevel.MPEG2ProfileSpatial:
                         case CodecProfileLevel.MPEG2ProfileHigh:
-                            Log.i(TAG, "Unsupported profile "
+                            Log.v(TAG, "Unsupported profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNSUPPORTED;
                             supported = false;
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -2796,7 +2796,7 @@ public final class MediaCodecInfo {
                                 case CodecProfileLevel.MPEG4Level6:
                                     FR = 30; W = 80; H = 45; MBPS = 108000; FS = 3600; BR = 12000; break;
                                 default:
-                                    Log.w(TAG, "Unrecognized profile/level "
+                                    Log.v(TAG, "Unrecognized profile/level "
                                             + profileLevel.profile + "/"
                                             + profileLevel.level + " for " + mime);
                                     errors |= ERROR_UNRECOGNIZED;
@@ -2818,7 +2818,7 @@ public final class MediaCodecInfo {
                                 case CodecProfileLevel.MPEG4Level5:
                                     FR = 30; W = 45; H = 36; MBPS = 48600; FS = 1620; BR = 8000; break;
                                 default:
-                                    Log.w(TAG, "Unrecognized profile/level "
+                                    Log.v(TAG, "Unrecognized profile/level "
                                             + profileLevel.profile + "/"
                                             + profileLevel.level + " for " + mime);
                                     errors |= ERROR_UNRECOGNIZED;
@@ -2843,13 +2843,13 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.MPEG4ProfileSimpleFace:       // 1-2
                         case CodecProfileLevel.MPEG4ProfileAdvancedScalable: // 1-3
                         case CodecProfileLevel.MPEG4ProfileSimpleFBA:        // 1-2
-                            Log.i(TAG, "Unsupported profile "
+                            Log.v(TAG, "Unsupported profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNSUPPORTED;
                             supported = false;
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -2921,7 +2921,7 @@ public final class MediaCodecInfo {
                             minW = 1; minH = 1; minAlignment = 4;
                             FR = 60; W = 45; H = 36; BR = 256; MBPS =  W * H * 50; break;
                         default:
-                            Log.w(TAG, "Unrecognized profile/level " + profileLevel.profile
+                            Log.v(TAG, "Unrecognized profile/level " + profileLevel.profile
                                     + "/" + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -2937,7 +2937,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.H263ProfileISWV3:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -2993,7 +2993,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.VP8Level_Version3:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized level "
+                            Log.v(TAG, "Unrecognized level "
                                     + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3001,7 +3001,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.VP8ProfileMain:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3053,7 +3053,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.VP9Level62:
                             SR = 4706009088L; FS = 35651584; BR = 480000; D = 16832; break;
                         default:
-                            Log.w(TAG, "Unrecognized level "
+                            Log.v(TAG, "Unrecognized level "
                                     + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3068,7 +3068,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.VP9Profile3HDR10Plus:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3151,7 +3151,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.HEVCHighTierLevel62:
                             FR =   120; FS = 35651584; BR = 800000; break;
                         default:
-                            Log.w(TAG, "Unrecognized level "
+                            Log.v(TAG, "Unrecognized level "
                                     + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3163,7 +3163,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.HEVCProfileMain10HDR10Plus:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3244,7 +3244,7 @@ public final class MediaCodecInfo {
                             SR = 4706009088L; FS = 35651584; BR = 160000; D = 16384; break;
 
                         default:
-                            Log.w(TAG, "Unrecognized level "
+                            Log.v(TAG, "Unrecognized level "
                                     + profileLevel.level + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3255,7 +3255,7 @@ public final class MediaCodecInfo {
                         case CodecProfileLevel.AV1ProfileMain10HDR10Plus:
                             break;
                         default:
-                            Log.w(TAG, "Unrecognized profile "
+                            Log.v(TAG, "Unrecognized profile "
                                     + profileLevel.profile + " for " + mime);
                             errors |= ERROR_UNRECOGNIZED;
                     }
@@ -3276,7 +3276,7 @@ public final class MediaCodecInfo {
                         blockSize, blockSize,
                         1 /* widthAlignment */, 1 /* heightAlignment */);
             } else {
-                Log.w(TAG, "Unsupported mime " + mime);
+                Log.v(TAG, "Unsupported mime " + mime);
                 // using minimal bitrate here.  should be overriden by
                 // info from media_codecs.xml
                 maxBps = 64000;
