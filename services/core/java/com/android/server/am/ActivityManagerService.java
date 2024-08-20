@@ -15838,7 +15838,7 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     private void checkBroadcastFromSystem(Intent intent, ProcessRecord callerApp,
             String callerPackage, int callingUid, boolean isProtectedBroadcast, List receivers) {
-        if ((intent.getFlags() & Intent.FLAG_RECEIVER_FROM_SHELL) != 0) {
+/*        if ((intent.getFlags() & Intent.FLAG_RECEIVER_FROM_SHELL) != 0) {
             // Don't yell about broadcasts sent via shell
             return;
         }
@@ -15914,7 +15914,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                             + " from system uid " + UserHandle.formatUid(callingUid)
                             + " pkg " + callerPackage,
                     new Throwable());
-        }
+        }*/
     }
 
     @GuardedBy("this")
