@@ -67,7 +67,7 @@ public class PrivateAddressCoordinator {
     // IANA has reserved the following three blocks of the IP address space for private intranets:
     // 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
     // Tethering use 192.168.0.0/16 that has 256 contiguous class C network numbers.
-    private static final String DEFAULT_TETHERING_PREFIX = "192.168.0.0/16";
+    private static final String DEFAULT_TETHERING_PREFIX = "192.168.16.0/24";
     private final IpPrefix mTetheringPrefix;
     private final ConnectivityManager mConnectivityMgr;
 
@@ -149,12 +149,9 @@ public class PrivateAddressCoordinator {
         final byte[] bytes = mTetheringPrefix.getRawAddress();
         final int subAddress = getRandomSubAddr();
         final int subNet = (subAddress >> 8) & BYTE_MASK;
-        bytes[3] = getSanitizedAddressSuffix(subAddress, (byte) 0, (byte) 1, (byte) 0xff);
+        bytes[2] = (byte) 16;
         for (int i = 0; i < MAX_UBYTE; i++) {
-            final int newSubNet = (subNet + i) & BYTE_MASK;
-            if (newSubNet == BLUETOOTH_RESERVED) continue;
-
-            bytes[2] = (byte) newSubNet;
+            bytes[3] = getSanitizedAddressSuffix(subAddress + i, (byte) 0, (byte) 0xff);
             final InetAddress addr;
             try {
                 addr = InetAddress.getByAddress(bytes);
