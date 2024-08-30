@@ -645,6 +645,10 @@ public class IpServer extends StateMachine {
     private LinkAddress requestIpv4Address() {
         if (mStaticIpv4ServerAddr != null) return mStaticIpv4ServerAddr;
 
+        if (mInterfaceType == TetheringManager.TETHERING_WIFI_P2P) {
+            return mPrivateAddressCoordinator.requestDownstreamAddressForWiFiP2p(this);
+        }
+
         if (mInterfaceType == TetheringManager.TETHERING_BLUETOOTH) {
             return new LinkAddress(BLUETOOTH_IFACE_ADDR);
         }

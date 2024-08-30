@@ -49,6 +49,7 @@ import java.util.Random;
  * @hide
  */
 public class PrivateAddressCoordinator {
+    private static final String TAG = PrivateAddressCoordinator.class.getSimpleName();
     public static final int PREFIX_LENGTH = 24;
 
     private static final int MAX_UBYTE = 256;
@@ -135,6 +136,37 @@ public class PrivateAddressCoordinator {
         }
 
         mUpstreamPrefixMap.removeAll(toBeRemoved);
+    }
+
+    @Nullable
+    public LinkAddress requestDownstreamAddressForWiFiP2p(final IpServer ipServer) {
+        maybeRemoveDeprectedUpstreams();
+
+        final byte[] bytes = new IpPrefix("192.168.16.1/24").getRawAddress();
+
+        final InetAddress addr;
+        try {
+            addr = InetAddress.getByAddress(bytes);
+        } catch (UnknownHostException e) {
+            throw new IllegalStateException("Invalid address, shouldn't happen.", e);
+        }
+
+        final IpPrefix prefix = new IpPrefix(addr, PREFIX_LENGTH);
+
+        // Check whether this prefix is in use.
+        if (isDownstreamPrefixInUse(prefix)) {
+            Log.e(TAG, "WiFi P2P prefix is already in use downstream.");
+            return null;
+        }
+
+        // Check whether this prefix is conflict with any current upstream network.
+        if (isConflictWithUpstream(prefix)) {
+            Log.e(TAG, "WiFi P2P prefix is in conflict with upstream network.");
+            return null;
+        }
+
+        mDownstreams.add(ipServer);
+        return new LinkAddress(addr, PREFIX_LENGTH);
     }
 
     /**
