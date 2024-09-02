@@ -645,6 +645,8 @@ public class IpServer extends StateMachine {
     private LinkAddress requestIpv4Address() {
         if (mStaticIpv4ServerAddr != null) return mStaticIpv4ServerAddr;
 
+        mLog.d(TAG, "requestIpv4Address: Interface type is " + mInterfaceType);
+
         if (mInterfaceType == TetheringManager.TETHERING_WIFI_P2P) {
             return mPrivateAddressCoordinator.requestDownstreamAddressForWiFiP2p(this);
         }
@@ -653,7 +655,7 @@ public class IpServer extends StateMachine {
             return new LinkAddress(BLUETOOTH_IFACE_ADDR);
         }
 
-        return mPrivateAddressCoordinator.requestDownstreamAddress(this);
+        return mPrivateAddressCoordinator.requestDownstreamAddressForWiFiP2p(this);
     }
 
     private boolean startIPv6() {
