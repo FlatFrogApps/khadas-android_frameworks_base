@@ -144,6 +144,7 @@ public class PrivateAddressCoordinator {
         maybeRemoveDeprectedUpstreams();
 
         final byte[] bytes = new IpPrefix("192.168.16.1/24").getRawAddress();
+        bytes[3] = 1;
 
         final InetAddress addr;
         try {
