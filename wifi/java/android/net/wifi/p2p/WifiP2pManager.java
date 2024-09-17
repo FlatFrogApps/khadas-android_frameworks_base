@@ -2086,7 +2086,7 @@ public class WifiP2pManager {
         c.mAsyncChannel.sendMessage(REQUEST_DEVICE_INFO, 0, c.putListener(listener));
     }
 
-    private ffTrace(String s) {
+    private static void ffTrace(String s) {
         Log.w(TAG + "_fftrace", s);
     }
 }
