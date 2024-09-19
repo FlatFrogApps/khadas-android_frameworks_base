@@ -1046,14 +1046,14 @@ public class WifiP2pManager {
                         break;
                     case RESPONSE_P2P_STATE:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: RESPONSE_P2P_STATE, arg1 " + arg1);
+                            ffTrace("P2pHandler.handleMessage: RESPONSE_P2P_STATE, arg1 " + message.arg1);
                             ((P2pStateListener) listener)
                                     .onP2pStateAvailable(message.arg1);
                         }
                         break;
                     case RESPONSE_DISCOVERY_STATE:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: RESPONSE_DISCOVERY_STATE, arg1 " + arg1);
+                            ffTrace("P2pHandler.handleMessage: RESPONSE_DISCOVERY_STATE, arg1 " + message.arg1);
                             ((DiscoveryStateListener) listener)
                                     .onDiscoveryStateAvailable(message.arg1);
                         }
