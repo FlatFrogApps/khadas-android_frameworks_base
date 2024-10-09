@@ -882,7 +882,6 @@ public class WifiP2pManager {
          * created by the app can be removed.
          */
         public void close() {
-            ffTrace("Channel.close");
             if (mP2pManager == null) {
                 Log.w(TAG, "Channel.close(): Null mP2pManager!?");
             } else {
@@ -958,7 +957,6 @@ public class WifiP2pManager {
                     case FACTORY_RESET_FAILED:
                     case SET_ONGOING_PEER_CONFIG_FAILED:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: failure, what " + message.what + ", arg1 " + message.arg1);
                             ((ActionListener) listener).onFailure(message.arg1);
                         }
                         break;
@@ -987,40 +985,34 @@ public class WifiP2pManager {
                     case FACTORY_RESET_SUCCEEDED:
                     case SET_ONGOING_PEER_CONFIG_SUCCEEDED:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: success, what " + message.what);
                             ((ActionListener) listener).onSuccess();
                         }
                         break;
                     case RESPONSE_PEERS:
                         WifiP2pDeviceList peers = (WifiP2pDeviceList) message.obj;
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: onPeersAvailable");
                             ((PeerListListener) listener).onPeersAvailable(peers);
                         }
                         break;
                     case RESPONSE_CONNECTION_INFO:
                         WifiP2pInfo wifiP2pInfo = (WifiP2pInfo) message.obj;
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: onConnectionInfoAvailable");
                             ((ConnectionInfoListener) listener).onConnectionInfoAvailable(wifiP2pInfo);
                         }
                         break;
                     case RESPONSE_GROUP_INFO:
                         WifiP2pGroup group = (WifiP2pGroup) message.obj;
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: onGroupInfoAvailable");
                             ((GroupInfoListener) listener).onGroupInfoAvailable(group);
                         }
                         break;
                     case RESPONSE_SERVICE:
                         WifiP2pServiceResponse resp = (WifiP2pServiceResponse) message.obj;
-                        ffTrace("P2pHandler.handleMessage: service response " + resp);
                         handleServiceResponse(resp);
                         break;
                     case RESPONSE_PERSISTENT_GROUP_INFO:
                         WifiP2pGroupList groups = (WifiP2pGroupList) message.obj;
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: persistent group info");
                             ((PersistentGroupInfoListener) listener).
                                 onPersistentGroupInfoAvailable(groups);
                         }
@@ -1031,7 +1023,6 @@ public class WifiP2pManager {
                             String handoverMessage = handoverBundle != null
                                     ? handoverBundle.getString(EXTRA_HANDOVER_MESSAGE)
                                     : null;
-                            ffTrace("P2pHandler.handleMessage: handover message " + handoverMessage);
                             ((HandoverMessageListener) listener)
                                     .onHandoverMessageAvailable(handoverMessage);
                         }
@@ -1039,35 +1030,30 @@ public class WifiP2pManager {
                     case RESPONSE_ONGOING_PEER_CONFIG:
                         WifiP2pConfig peerConfig = (WifiP2pConfig) message.obj;
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: ongoing peer config");
                             ((OngoingPeerInfoListener) listener)
                                     .onOngoingPeerAvailable(peerConfig);
                         }
                         break;
                     case RESPONSE_P2P_STATE:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: p2p state available");
                             ((P2pStateListener) listener)
                                     .onP2pStateAvailable(message.arg1);
                         }
                         break;
                     case RESPONSE_DISCOVERY_STATE:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: discovery state available");
                             ((DiscoveryStateListener) listener)
                                     .onDiscoveryStateAvailable(message.arg1);
                         }
                         break;
                     case RESPONSE_NETWORK_INFO:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: network info available");
                             ((NetworkInfoListener) listener)
                                     .onNetworkInfoAvailable((NetworkInfo) message.obj);
                         }
                         break;
                     case RESPONSE_DEVICE_INFO:
                         if (listener != null) {
-                            ffTrace("P2pHandler.handleMessage: device info available");
                             ((DeviceInfoListener) listener)
                                     .onDeviceInfoAvailable((WifiP2pDevice) message.obj);
                         }
@@ -1081,15 +1067,12 @@ public class WifiP2pManager {
 
         private void handleServiceResponse(WifiP2pServiceResponse resp) {
             if (resp instanceof WifiP2pDnsSdServiceResponse) {
-                ffTrace("P2pHandler.handleServiceResponse: dns-sd service response");
                 handleDnsSdServiceResponse((WifiP2pDnsSdServiceResponse)resp);
             } else if (resp instanceof WifiP2pUpnpServiceResponse) {
-                ffTrace("P2pHandler.handleServiceResponse: upnp service response");
                 if (mUpnpServRspListener != null) {
                     handleUpnpServiceResponse((WifiP2pUpnpServiceResponse)resp);
                 }
             } else {
-                ffTrace("P2pHandler.handleServiceResponse: on service available, serviceType " + resp.getServiceType());
                 if (mServRspListener != null) {
                     mServRspListener.onServiceAvailable(resp.getServiceType(),
                             resp.getRawData(), resp.getSrcDevice());
@@ -1098,14 +1081,12 @@ public class WifiP2pManager {
         }
 
         private void handleUpnpServiceResponse(WifiP2pUpnpServiceResponse resp) {
-            ffTrace("P2pHandler.handleUpnpServiceResponse");
             mUpnpServRspListener.onUpnpServiceAvailable(resp.getUniqueServiceNames(),
                     resp.getSrcDevice());
         }
 
         private void handleDnsSdServiceResponse(WifiP2pDnsSdServiceResponse resp) {
             if (resp.getDnsType() == WifiP2pDnsSdServiceInfo.DNS_TYPE_PTR) {
-                ffTrace("P2pHandler.handleDnsSdServiceResponse: DNS_TYPE_PTR, instanceName " + resp.getInstanceName() + ", dnsQueryName " + resp.getDnsQueryName());
                 if (mDnsSdServRspListener != null) {
                     mDnsSdServRspListener.onDnsSdServiceAvailable(
                             resp.getInstanceName(),
@@ -1114,7 +1095,6 @@ public class WifiP2pManager {
                 }
             } else if (resp.getDnsType() == WifiP2pDnsSdServiceInfo.DNS_TYPE_TXT) {
                 if (mDnsSdTxtListener != null) {
-                    ffTrace("P2pHandler.handleDnsSdServiceResponse: DNS_TYPE_TXT, dnsQueryName " + resp.getDnsQueryName() + ", txtRecord " + resp.getTxtRecord());
                     mDnsSdTxtListener.onDnsSdTxtRecordAvailable(
                             resp.getDnsQueryName(),
                             resp.getTxtRecord(),
@@ -1175,7 +1155,6 @@ public class WifiP2pManager {
      * @return Channel instance that is necessary for performing any further p2p operations
      */
     public Channel initialize(Context srcContext, Looper srcLooper, ChannelListener listener) {
-        ffTrace("WifiP2pManager.initialize");
         Binder binder = new Binder();
         Channel channel = initalizeChannel(srcContext, srcLooper, listener, getMessenger(binder),
                 binder);
@@ -1233,7 +1212,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void discoverPeers(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.discoverPeers");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(DISCOVER_PEERS, 0, c.putListener(listener));
     }
@@ -1250,7 +1228,6 @@ public class WifiP2pManager {
      * @param listener for callbacks on success or failure. Can be null.
      */
     public void stopPeerDiscovery(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.stopPeerDiscovery");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(STOP_DISCOVERY, 0, c.putListener(listener));
     }
@@ -1279,7 +1256,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void connect(Channel c, WifiP2pConfig config, ActionListener listener) {
-        ffTrace("WifiP2pManager.connect: config " + config);
         checkChannel(c);
         checkP2pConfig(config);
         c.mAsyncChannel.sendMessage(CONNECT, 0, c.putListener(listener), config);
@@ -1297,7 +1273,6 @@ public class WifiP2pManager {
      * @param listener for callbacks on success or failure. Can be null.
      */
     public void cancelConnect(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.cancelConnect");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(CANCEL_CONNECT, 0, c.putListener(listener));
     }
@@ -1323,7 +1298,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void createGroup(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.createGroup");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(CREATE_GROUP, WifiP2pGroup.NETWORK_ID_PERSISTENT,
                 c.putListener(listener));
@@ -1357,7 +1331,6 @@ public class WifiP2pManager {
     public void createGroup(@NonNull Channel c,
             @Nullable WifiP2pConfig config,
             @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.createGroup: config " + config);
         checkChannel(c);
         c.mAsyncChannel.sendMessage(CREATE_GROUP, 0,
                 c.putListener(listener), config);
@@ -1375,7 +1348,6 @@ public class WifiP2pManager {
      * @param listener for callbacks on success or failure. Can be null.
      */
     public void removeGroup(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.removeGroup");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(REMOVE_GROUP, 0, c.putListener(listener));
     }
@@ -1391,7 +1363,6 @@ public class WifiP2pManager {
     @SystemApi
     @RequiresPermission(android.Manifest.permission.NETWORK_SETTINGS)
     public void startListening(@NonNull Channel c, @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.startListening");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(START_LISTEN, 0, c.putListener(listener));
     }
@@ -1407,7 +1378,6 @@ public class WifiP2pManager {
     @SystemApi
     @RequiresPermission(android.Manifest.permission.NETWORK_SETTINGS)
     public void stopListening(@NonNull Channel c, @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.stopListening");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(STOP_LISTEN, 0, c.putListener(listener));
     }
@@ -1430,7 +1400,6 @@ public class WifiP2pManager {
     })
     public void setWifiP2pChannels(@NonNull Channel c, int listeningChannel, int operatingChannel,
             @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.setWifiP2pChannels: listeningChannel " + listeningChannel + ", operatingChannel " + operatingChannel);
         checkChannel(c);
         Bundle p2pChannels = new Bundle();
         p2pChannels.putInt("lc", listeningChannel);
@@ -1450,7 +1419,6 @@ public class WifiP2pManager {
      */
     @UnsupportedAppUsage
     public void startWps(Channel c, WpsInfo wps, ActionListener listener) {
-        ffTrace("WifiP2pManager.startWps: info " + wps);
         checkChannel(c);
         c.mAsyncChannel.sendMessage(START_WPS, 0, c.putListener(listener), wps);
     }
@@ -1478,7 +1446,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void addLocalService(Channel c, WifiP2pServiceInfo servInfo, ActionListener listener) {
-        ffTrace("WifiP2pManager.addLocalService: serviceInfo " + servInfo);
         checkChannel(c);
         checkServiceInfo(servInfo);
         c.mAsyncChannel.sendMessage(ADD_LOCAL_SERVICE, 0, c.putListener(listener), servInfo);
@@ -1498,7 +1465,6 @@ public class WifiP2pManager {
      */
     public void removeLocalService(Channel c, WifiP2pServiceInfo servInfo,
             ActionListener listener) {
-        ffTrace("WifiP2pManager.removeLocalService: serviceInfo " + servInfo);
         checkChannel(c);
         checkServiceInfo(servInfo);
         c.mAsyncChannel.sendMessage(REMOVE_LOCAL_SERVICE, 0, c.putListener(listener), servInfo);
@@ -1516,7 +1482,6 @@ public class WifiP2pManager {
      * @param listener for callbacks on success or failure. Can be null.
      */
     public void clearLocalServices(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.clearLocalServices");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(CLEAR_LOCAL_SERVICES, 0, c.putListener(listener));
     }
@@ -1534,7 +1499,6 @@ public class WifiP2pManager {
      */
     public void setServiceResponseListener(Channel c,
             ServiceResponseListener listener) {
-        ffTrace("WifiP2pManager.setServiceResponseListener");
         checkChannel(c);
         c.mServRspListener = listener;
     }
@@ -1551,7 +1515,6 @@ public class WifiP2pManager {
      */
     public void setDnsSdResponseListeners(Channel c,
             DnsSdServiceResponseListener servListener, DnsSdTxtRecordListener txtListener) {
-        ffTrace("WifiP2pManager.setDnsSdResponseListeners");
         checkChannel(c);
         c.mDnsSdServRspListener = servListener;
         c.mDnsSdTxtListener = txtListener;
@@ -1568,7 +1531,6 @@ public class WifiP2pManager {
      */
     public void setUpnpServiceResponseListener(Channel c,
             UpnpServiceResponseListener listener) {
-        ffTrace("WifiP2pManager.setUpnpServiceResponseListener");
         checkChannel(c);
         c.mUpnpServRspListener = listener;
     }
@@ -1594,7 +1556,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void discoverServices(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.discoverServices");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(DISCOVER_SERVICES, 0, c.putListener(listener));
     }
@@ -1620,7 +1581,6 @@ public class WifiP2pManager {
      */
     public void addServiceRequest(Channel c,
             WifiP2pServiceRequest req, ActionListener listener) {
-        ffTrace("WifiP2pManager.addServiceRequest: req " + req);
         checkChannel(c);
         checkServiceRequest(req);
         c.mAsyncChannel.sendMessage(ADD_SERVICE_REQUEST, 0,
@@ -1641,7 +1601,6 @@ public class WifiP2pManager {
      */
     public void removeServiceRequest(Channel c, WifiP2pServiceRequest req,
             ActionListener listener) {
-        ffTrace("WifiP2pManager.removeServiceRequest: req " + req);
         checkChannel(c);
         checkServiceRequest(req);
         c.mAsyncChannel.sendMessage(REMOVE_SERVICE_REQUEST, 0,
@@ -1660,7 +1619,6 @@ public class WifiP2pManager {
      * @param listener for callbacks on success or failure. Can be null.
      */
     public void clearServiceRequests(Channel c, ActionListener listener) {
-        ffTrace("WifiP2pManager.clearServiceRequests");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(CLEAR_SERVICE_REQUESTS,
                 0, c.putListener(listener));
@@ -1674,7 +1632,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void requestPeers(Channel c, PeerListListener listener) {
-        ffTrace("WifiP2pManager.requestPeers");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(REQUEST_PEERS, 0, c.putListener(listener));
     }
@@ -1686,7 +1643,6 @@ public class WifiP2pManager {
      * @param listener for callback when connection info is available. Can be null.
      */
     public void requestConnectionInfo(Channel c, ConnectionInfoListener listener) {
-        ffTrace("WifiP2pManager.requestConnectionInfo");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(REQUEST_CONNECTION_INFO, 0, c.putListener(listener));
     }
@@ -1699,7 +1655,6 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void requestGroupInfo(Channel c, GroupInfoListener listener) {
-        ffTrace("WifiP2pManager.requestGroupInfo");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(REQUEST_GROUP_INFO, 0, c.putListener(listener));
     }
@@ -1720,7 +1675,6 @@ public class WifiP2pManager {
     })
     public void setDeviceName(@NonNull Channel c, @NonNull String devName,
             @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.setDeviceName: devName " + devName);
         checkChannel(c);
         WifiP2pDevice d = new WifiP2pDevice();
         d.deviceName = devName;
@@ -1748,7 +1702,6 @@ public class WifiP2pManager {
     @RequiresPermission(android.Manifest.permission.CONFIGURE_WIFI_DISPLAY)
     public void setWFDInfo(@NonNull Channel c, @NonNull WifiP2pWfdInfo wfdInfo,
             @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.setWfdInfo: info " + wfdInfo);
         checkChannel(c);
         try {
             mService.checkConfigureWifiDisplayPermission();
@@ -1785,7 +1738,6 @@ public class WifiP2pManager {
     })
     public void deletePersistentGroup(@NonNull Channel c, int netId,
             @Nullable ActionListener listener) {
-        ffTrace("WifiP2pManager.deletePersistentGroup: netId " + netId);
         checkChannel(c);
         c.mAsyncChannel.sendMessage(DELETE_PERSISTENT_GROUP, netId, c.putListener(listener));
     }
@@ -1806,7 +1758,6 @@ public class WifiP2pManager {
     })
     public void requestPersistentGroupInfo(@NonNull Channel c,
             @Nullable PersistentGroupInfoListener listener) {
-        ffTrace("WifiP2pManager.requestPersistentGroupInfo");
         checkChannel(c);
         c.mAsyncChannel.sendMessage(REQUEST_PERSISTENT_GROUP_INFO, 0, c.putListener(listener));
     }
@@ -1856,7 +1807,6 @@ public class WifiP2pManager {
     @SystemApi
     @RequiresPermission(android.Manifest.permission.CONFIGURE_WIFI_DISPLAY)
     public void setMiracastMode(@MiracastMode int mode) {
-        ffTrace("WifiP2pManager.setMiracastMode: mode " + mode);
         try {
             mService.setMiracastMode(mode);
         } catch (RemoteException e) {
@@ -2005,7 +1955,6 @@ public class WifiP2pManager {
      */
     public void requestP2pState(@NonNull Channel c,
             @NonNull P2pStateListener listener) {
-        ffTrace("WifiP2pManager.requestP2pState");
         checkChannel(c);
         if (listener == null) throw new IllegalArgumentException("This listener cannot be null.");
         c.mAsyncChannel.sendMessage(REQUEST_P2P_STATE, 0, c.putListener(listener));
@@ -2027,7 +1976,6 @@ public class WifiP2pManager {
      */
     public void requestDiscoveryState(@NonNull Channel c,
             @NonNull DiscoveryStateListener listener) {
-        ffTrace("WifiP2pManager.requestDiscoveryState");
         checkChannel(c);
         if (listener == null) throw new IllegalArgumentException("This listener cannot be null.");
         c.mAsyncChannel.sendMessage(REQUEST_DISCOVERY_STATE, 0, c.putListener(listener));
@@ -2050,7 +1998,6 @@ public class WifiP2pManager {
      */
     public void requestNetworkInfo(@NonNull Channel c,
             @NonNull NetworkInfoListener listener) {
-        ffTrace("WifiP2pManager.requestNetworkInfo");
         checkChannel(c);
         if (listener == null) throw new IllegalArgumentException("This listener cannot be null.");
         c.mAsyncChannel.sendMessage(REQUEST_NETWORK_INFO, 0, c.putListener(listener));
@@ -2080,13 +2027,8 @@ public class WifiP2pManager {
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void requestDeviceInfo(@NonNull Channel c, @NonNull DeviceInfoListener listener) {
-        ffTrace("WifiP2pManager.requestDeviceInfo");
         checkChannel(c);
         if (listener == null) throw new IllegalArgumentException("This listener cannot be null.");
         c.mAsyncChannel.sendMessage(REQUEST_DEVICE_INFO, 0, c.putListener(listener));
-    }
-
-    private ffTrace(String s) {
-        Log.w(TAG + "_fftrace", s);
     }
 }
