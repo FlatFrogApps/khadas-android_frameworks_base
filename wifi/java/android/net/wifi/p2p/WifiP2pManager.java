@@ -53,8 +53,6 @@ import com.android.internal.util.Protocol;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.Reference;
-import java.lang.StringBuilder;
-import java.net.NetworkInterface;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1301,29 +1299,8 @@ public class WifiP2pManager {
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
     public void createGroup(Channel c, ActionListener listener) {
         checkChannel(c);
-
-        final WifiP2pConfig config = new WifiP2pConfig.Builder()
-                .setGroupOperatingBand(WifiP2pConfig.GROUP_OWNER_BAND_5GHZ)
-                .enablePersistentMode(true)
-                .setNetworkName("DIRECT-ff-" + toHexString(NetworkInterface.getByName("wlan0").getHardwareAddress()))
-                .setPassphrase("12345678")
-                .build();
-        c.mAsyncChannel.sendMessage(CREATE_GROUP, 0, c.putListener(listener), config);
-
-//        c.mAsyncChannel.sendMessage(CREATE_GROUP, WifiP2pGroup.NETWORK_ID_PERSISTENT,
-//                c.putListener(listener));
-    }
-
-    private static final char[] sHexChars = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-    private static String toHexString(byte[] data) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < data.length; i++) {
-            int high = (data[i] >> 4) & 0xF;
-            sb.append(sHexChars[high]);
-            int low = data[i] & 0xF;
-            sb.append(sHexChars[low]);
-        }
-        return sb.toString();
+        c.mAsyncChannel.sendMessage(CREATE_GROUP, WifiP2pGroup.NETWORK_ID_PERSISTENT,
+                c.putListener(listener));
     }
 
     /**
