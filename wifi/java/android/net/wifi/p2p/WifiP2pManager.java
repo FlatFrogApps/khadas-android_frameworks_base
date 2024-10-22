@@ -1302,17 +1302,10 @@ public class WifiP2pManager {
     public void createGroup(Channel c, ActionListener listener) {
         checkChannel(c);
 
-        byte[] deviceAddress;
-        try {
-            deviceAddress = NetworkInterface.getByName("wlan0").getHardwareAddress();
-        } catch (Exception e) {
-            deviceAddress = new byte[0];
-        }
-
         final WifiP2pConfig config = new WifiP2pConfig.Builder()
                 .setGroupOperatingBand(WifiP2pConfig.GROUP_OWNER_BAND_5GHZ)
                 .enablePersistentMode(true)
-                .setNetworkName("DIRECT-ff-" + toHexString(deviceAddress))
+                .setNetworkName("DIRECT-ff-" + toHexString(NetworkInterface.getByName("wlan0").getHardwareAddress()))
                 .setPassphrase("12345678")
                 .build();
         c.mAsyncChannel.sendMessage(CREATE_GROUP, 0, c.putListener(listener), config);
